@@ -7,7 +7,8 @@
 /*
 
 red_grey: #1D1E21;
-spring-green : #00FF7F;
+carmine_red: #ff0038;
+spring_green: #00FF7F;
 
 */
 
@@ -119,7 +120,7 @@ html{
   border: 2px solid transparent;
   margin: 10px 20px;
   background-color: #000f00;
-  box-shadow: -1px 1px 5px 3px rgba(214,109,117,1) ;
+  box-shadow: -1px 1px 5px 3px #6163FF ;
   -webkit-box-shadow: -1rgba(214,109,117,0.53) rgba(255,241,230,1) ;
   -moz-box-shadow: -1px 1px 5px 3px  rgba(214,109,117,1) ;
 }
@@ -136,6 +137,8 @@ i{
   margin: 10px 10px 0px;
   cursor: pointer;
   font-size:  20px;
+  position: relative;
+  top: 14px;
 }
 
 i:active {
@@ -159,10 +162,10 @@ i:active {
   margin: 20px auto;
   border-radius: 8px;
   min-height: 170px;
-  border: 2px solid #CCC;
+  border: 2px solid #6163FF;
   padding: 5px 17px;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 15px;
 }
 
 .modal{
@@ -171,11 +174,16 @@ i:active {
   left: 35%;
   transform: scale(0);
   margin: auto;
-  height: 50%;
+  height: 67%;
   width: 30%;
-  background-color: #FFFFFF;
+  border: 2px solid #6163FF;
+  background-color: #1D1E21;
+  border-radius: 8px;
 }
 
+hr{
+  background-color: #6163FF;
+}
 .modal ii{
   font-size:  30px;
   color: #FF0000;
@@ -191,6 +199,11 @@ i:active {
 
 input[type='text']{
   margin-left: 15%;
+  border-radius: 10px;
+}
+
+input[type='date']{
+  border-radius: 10px;
 }
 
 input{
@@ -211,7 +224,14 @@ input[type='button']{
   width: 20%;
   margin-top: 30px;
   cursor: pointer;
-  line-height: 20px;
+  line-height: 9px;
+  border-radius: 10px;
+}
+
+input[type='button']:hover {
+    background-color: #000000;
+    color: #00FF7F;
+    border-color: #00FF7F;
 }
 
 span{
@@ -234,5 +254,18 @@ span{
     height: 100%;
     width: 100%;
     background-color: #FFFFFF;
+  }
+}
+
+.pending{
+  position: relative;
+  top: 10px !important;
+}
+
+@media (max-width:480px){
+  #foot p{
+    position: relative;
+    top: 1000px !important;
+    left: 0% !important;
   }
 }

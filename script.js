@@ -43,7 +43,7 @@ let array = [{
   startDate:'2021-01-01',
   endDate: '2021-02-02',
   location: 'progresscontainer'
-}
+},
 {
   content:'Mine Sweeper',
   newone: false,
@@ -53,7 +53,7 @@ let array = [{
   startDate:'2021-01-01',
   endDate: '2021-02-02',
   location: 'reviewcontainer'
-}
+},
 {
   content:'Typing Tutor',
   newone: false,
@@ -64,10 +64,10 @@ let array = [{
   endDate: '2021-02-02',
   location: 'donecontainer'
 }
-]
+];
 
-localStorage.getItem('newAssignment') ? array = localStorage.getItem('newAssignment');
-localStorage.setItem('newAssignment', JSON.stringyfy(array));
+localStorage.getItem('newAssignment') ? array = localStorage.getItem('newAssignment'):
+localStorage.setItem('newAssignment', JSON.stringify(array));
 
 array = JSON.parse(localStorage.getItem('newAssignment'));
 
@@ -122,7 +122,7 @@ let functionForDrag = function(){
 }
 
 let functionForDragEnter = function(e){
-  e.preventDefult();
+  e.preventDefault();
   console.log('enter');
   this.classList.add('border');
 }
@@ -134,8 +134,8 @@ let functionForDragLeave = function(){
 
 let functionForDrop = function(e){
   let ele = e.dataTransfer.getData('text');
-  console.log('e.target');
-  this.classListRemove('border');
+  console.log(e.target);
+  this.classList.remove('border');
   this.lastElementChild.appendChild(document.querySelector('#'+ele));
   console.log(this.lastElementChild);
   storeTheId = e.currentTarget.lastElementChild.id;
@@ -168,11 +168,11 @@ let functionForDrop = function(e){
     array[storeTheValue].done = false;
     array[storeTheValue].location = 'reviewcontainer';
   }
-  localStorage.setItem('newAssignment', JSON.stringyfy(array));
+  localStorage.setItem('newAssignment', JSON.stringify(array));
 }
 
 let functionForDragOver = function(e){
-  e.preventDefult();
+  e.preventDefault();
   this.classList.add('border');
 }
 
@@ -191,7 +191,7 @@ ADD.addEventListener('click', addFunction);
 
 // Submit
 
-let create = function(e){
+let creation = function(e){
   if(id('text').value.length && id('start').value.length && id('end').value.length > 0){
     MODAL.style.transform = 'scale(0)';
     MODAL.style.transition = '0.4s';
@@ -206,13 +206,12 @@ let create = function(e){
       done: false,
       startDate: id('start').value,
       endDate: id('end').value,
-      location: 'newonecontainer'
-    });
-    console.log(id('text').value);
-    console.log(id('start').value);
-    console.log(id('end').value);
-    id('text').value = id('start').value = id('end').value = " ";
-    localStorage.setItem('newAssignment', JSON.stringyfy(array));
+      location: 'newonecontainer'});
+      console.log(id('text').value);
+      console.log(id('start').value);
+      console.log(id('end').value);
+      id('text').value = id('start').value = id('end').value = " ";
+      localStorage.setItem('newAssignment', JSON.stringify(array));
   }else{
     checking = false;
     array[indexNumber] = {
@@ -223,15 +222,138 @@ let create = function(e){
       done: false,
       startDate: id('start').value,
       endDate: id('end').value,
-      location: 'currentElement1'
+      location: currentElement1
     };
-    console.log(currentElement1);
-    console.log('Value Changed');
-    localStorage.setItem('newAssignment', JSON.stringyfy(array));
-    id('text').value = id('start').value = id('end').value = " ";
+      console.log(currentElement1);
+      console.log('Value Changed');
+      localStorage.setItem('newAssignment', JSON.stringify(array));
+      id('text').value = id('start').value = id('end').value = " ";
   }
   createDefaultAssignments();
 }else{
   console.log('Fill The Doground');
 }
 }
+
+let actionItems = function(e){
+  if(e.target.classList == 'far fa-trash-alt'){
+    textValue = e.currentTarget.id;
+    textValue = textValue.slice(textValue.length-1, textValue.length);
+    console.log(textValue);
+    console.log(e.currentTarget);
+    array.splice(textValue, 1);
+    localStorage.setItem('newAssignment', JSON.stringify(array));
+    createDefaultAssignments();
+  }
+  if(e.target.classList == 'far fa-edit'){
+    textValue = e.currentTarget.id;
+    textValue = textValue.slice(textValue.length-1, textValue.length);
+    console.log(textValue);
+    console.log("working");
+    console.log(e.currentTarget.parentNode);
+    currentElement1 = e.currentTarget.parentNode.id;
+    checking = true;
+    console.log(currentElement1);
+    indexNumber = textValue;
+    console.log(indexNumber);
+    textValue = array[textValue];
+    console.log(textValue.startDate);
+    doEdit(textValue.content, textValue.startDate, textValue.endDate);
+  }
+}
+
+let doEdit = function(text, start, end){
+  MODAL.style.transform = 'scale(1)';
+  MODAL.style.transition = '1s';
+  query('.all').style.display = 'none';
+  query('.all').style.transform ='1s';
+  id('text').value = text;
+  id('start').value = start;
+  id('end').value = end;
+}
+
+id('sub').addEventListener('click', creation);
+
+let cancelFunction = function(){
+  id('text').value = id('start').value = id('end').value = " ";
+  MODAL.style.transform = 'scale(0)';
+  MODAL.style.transition = '0.4s';
+  query('.all').style.display = 'flex';
+  query('.all').style.transform = '1s';
+  console.log('Who summoned me ?');
+}
+
+let addActions = function(){
+  let taskActionItems = document.querySelectorAll('.task');
+  taskActionItems.forEach(
+    function(taskActionItem){
+      taskActionItem.addEventListener('click', actionItems);
+      taskActionItem.addEventListener('dragstart', functionForDragStart);
+    }
+  );
+}
+
+id('cancel').addEventListener('click', cancelFunction);
+
+let doEvent = function(){
+  for(let i=0; i<divisions.length; i++){
+    let queryname = document.querySelector('#'+divisions[i]);
+    console.log(queryname);
+    queryname.addEventListener('dragenter', functionForDragEnter);
+    queryname.addEventListener('dragover', functionForDragOver);
+    queryname.addEventListener('dragleave', functionForDragLeave);
+    queryname.addEventListener('drop', functionForDrop);
+  }
+}
+
+let dateprocess = function(num){
+  var date1 = new Date(array[num].startDate);
+  var date2 = new Date(array[num].endDate);
+  var Difference_In_Time = date2.getTime() - date1.getTime();
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+  if (Difference_In_Days < 0){
+    id('pending'+ num).innerText = 'Not Available';
+  }else if(Difference_In_Days <= 31){
+    id('pending'+ num).innerText = 'Duration : '+ Difference_In_Days + " Days";
+  }else if(Difference_In_Days <= 365){
+    var month = parseInt(Difference_In_Days / 31);
+    var days = Difference_In_Days % 31;
+    if(month == 1 && days == 1){
+      id('pending'+ num).innerText = ' Duration : '+ month + " Month and " + days + "Day";
+    }else if(month == 1){
+      id('pending'+ num).innerText = ' Duration : '+ month + " Month and " + days + "Days";
+    }else if(days == 1){
+      id('pending'+ num).innerText = ' Duration : '+ month + " Months and " + days + "Day";
+    }else{
+      id('pending'+ num).innerText = ' Duration : '+ month + " Months and " + days + "Days";
+    }
+  }
+}
+
+let createDefaultAssignments = function(){
+  NEWONE.innerText = "";
+  PROGRESS.innerText = "";
+  REVIEW.innerText = "";
+  DONE.innerText = "";
+  console.log(array);
+
+  for(let i=0; i<array.length; i++){
+    console.log(array[i]);
+    if (array[i].location == 'newonecontainer'){
+      createElement(id('newonecontainer'), i);
+      dateprocess(i);
+      console.log(i);
+    }else if (array[i].location == 'progresscontainer'){
+      createElement(id('progresscontainer'), i);
+      dateprocess(i);
+    }else if (array[i].location == 'reviewcontainer'){
+      createElement(id('reviewcontainer'), i);
+      dateprocess(i);
+    }else if (array[i].location == 'donecontainer'){
+      createElement(id('donecontainer'), i);
+      dateprocess(i);
+    }
+  }
+}
+
+createDefaultAssignments();
