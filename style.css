@@ -268,4 +268,9 @@ span{
     top: 1000px !important;
     left: 0% !important;
   }
+
+  i{
+    position: relative;
+    top: 32px !important;
+  }
 }
