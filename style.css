@@ -1,0 +1,39 @@
+/* Pr0 Font */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+/* Color Refrences */
+
+/*
+
+red_grey: #1D1E21;
+spring-green :00FF7F;
+
+*/
+
+html, body{
+  font-family: 'Roboto', sans-serif !important;
+}
+
+/* Pr0 Background */
+
+html, body{
+  background-color : #1D1E21 !important;
+  scroll-behavior: smooth;
+}
+
+/* Hide Scroll bar through Magic */
+
+html,body {
+    overflow: scroll;
+    overflow-x: hidden !important;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
